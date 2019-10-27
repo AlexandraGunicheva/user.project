@@ -10,6 +10,7 @@ public class UserUtilsTest {
             new User("Veronika",30,UserUtils.GENDER_FEMALE,true),
             new User("Alexandra",42,UserUtils.GENDER_FEMALE,false),
             new User("James",17, UserUtils.GENDER_MALE,true),
+            null,
             new User("Jack",7,UserUtils.GENDER_MALE,true));
 
     private  List<User> expectedResult;
