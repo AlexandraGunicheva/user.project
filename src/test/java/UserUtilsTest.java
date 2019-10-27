@@ -15,8 +15,7 @@ public class UserUtilsTest {
     private  List<User> expectedResult;
 
     @Test
-    public void shouldReverseUserSorting(){
-
+    public void shouldReturnListOfUsersWithReverseSorting(){
         expectedResult = new ArrayList<>();
         expectedResult.add(new User("Veronika",30,UserUtils.GENDER_FEMALE,true));
         expectedResult.add(new User("James",17,UserUtils.GENDER_MALE,true));
@@ -24,10 +23,8 @@ public class UserUtilsTest {
         expectedResult.add(new User("Anna",21,UserUtils.GENDER_FEMALE,true));
         expectedResult.add(new User("Alexandra",42,UserUtils.GENDER_FEMALE,false));
 
-        List<User> actualList = UserUtils.reverseUserSorting(userList);
-
+        List<User> actualList = UserUtils.returnListOfUsersWithReverseSorting(userList);
         Assert.assertEquals(expectedResult, actualList);
-
     }
 
     @Test
@@ -37,17 +34,17 @@ public class UserUtilsTest {
         expectedResult.add(new User("James",17,UserUtils.GENDER_MALE,true));
         expectedResult.add(new User("Jack",7,UserUtils.GENDER_MALE,true));
 
-        List<User> actualList = UserUtils.returnStudentsWithAgeLess25(userList);
-        Assert.assertEquals(expectedResult,actualList);
+        List<User> actualResult = UserUtils.returnStudentsWithAgeLessThan25(userList);
+        Assert.assertEquals(expectedResult,actualResult);
     }
 
     @Test
     public void shouldReturnCountOfStudentsWithAgeMoreThan15(){
-        Assert.assertEquals(3, UserUtils.returnCountOfStudentsWithAgeMore15(userList));
+        Assert.assertEquals(3, UserUtils.returnCountOfStudentsWithAgeMoreThan15(userList));
     }
 
     @Test
-    public void testReturnMapWithKeyGender(){
+    public void shouldReturnMapOfUsersWithKeyGender(){
         Map<String, List<User>> expectedResult = new HashMap<>();
         List<User> men = new ArrayList<>();
         men.add(new User("James",17,UserUtils.GENDER_MALE,true));
@@ -59,20 +56,19 @@ public class UserUtilsTest {
         expectedResult.put(UserUtils.GENDER_FEMALE, women);
         expectedResult.put(UserUtils.GENDER_MALE, men);
 
-
-        Map<String, List<User>> actualResult = UserUtils.returnMapWithKeyGender(userList);
+        Map<String, List<User>> actualResult = UserUtils.returnMapOfUsersWithKeyGender(userList);
         Assert.assertEquals(expectedResult,actualResult);
     }
 
     @Test
-    public void testReturnAllUsersAsString(){
+    public void shouldReturnAllUsersAsStringWithSeparatingByComma(){
         String expectedResult = "User{name - Anna, age - 21, gender - female, student - true}, User{name - Veronika, age - 30, gender - female, student - true}, User{name - Alexandra, age - 42, gender - female, student - false}, User{name - James, age - 17, gender - male, student - true}, User{name - Jack, age - 7, gender - male, student - true}";
-        String actualResult = UserUtils.returnAllUsersAsString(userList);
+        String actualResult = UserUtils.returnAllUsersAsStringWithSeparatingByComma(userList);
 	    Assert.assertEquals(expectedResult,actualResult);
     }
 
 	@Test
-	public void testReturnAListUsersWithUpperCaseNameGender (){
+	public void shouldReturnListOfUsersWithUpperCaseNameAndGender (){
         expectedResult = new ArrayList<>();
         String expectedFamale = "FEMALE";
         String expectedMale = "MALE";
@@ -82,13 +78,12 @@ public class UserUtilsTest {
         expectedResult.add(new User("JAMES",17, expectedMale,true));
         expectedResult.add(new User("JACK",7,expectedMale,true));
 
-        List<User> actualResult = UserUtils.returnAListWithUpperCaseNameGender(userList);
-
+        List<User> actualResult = UserUtils.returnListOfUsersWithUpperCaseNameAndGender(userList);
         Assert.assertEquals(expectedResult,actualResult);
     }
 
     @Test
-    public void testReturnAListUserReductionsWithUpperCaseNameGender (){
+    public void shouldReturnListOfUserReductionsWithUpperCaseNameAndGender (){
         List <UserReduction> expectedResult = new ArrayList<>();
         String expectedFamale = "FEMALE";
         String expectedMale = "MALE";
@@ -98,38 +93,35 @@ public class UserUtilsTest {
         expectedResult.add(new UserReduction("JAMES", expectedMale));
         expectedResult.add(new UserReduction("JACK",expectedMale));
 
-        List<UserReduction> actualResult = UserUtils.returnAListUserReductionsWithUpperCaseNameGender(userList);
-
+        List<UserReduction> actualResult = UserUtils.returnListOfUserReductionsWithUpperCaseNameAndGender(userList);
         Assert.assertEquals(expectedResult,actualResult);
     }
 
     @Test
-    public void test(){
-        Map<String, List<User>> expectedResult1 = new HashMap<>();
+    public void shouldReturnMapUsersGroupedByStudentContainingMapByGenders(){
+        Map<String, List<User>> studentsResult = new HashMap<>();
         List<User> men = new ArrayList<>();
         men.add(new User("James",17,UserUtils.GENDER_MALE,true));
         men.add(new User("Jack",7,UserUtils.GENDER_MALE,true));
         List<User> women = new ArrayList<>();
         women.add(new User("Anna",21,UserUtils.GENDER_FEMALE,true));
         women.add(new User("Veronika",30,UserUtils.GENDER_FEMALE,true));
-        expectedResult1.put(UserUtils.GENDER_MALE, men);
-        expectedResult1.put(UserUtils.GENDER_FEMALE, women);
+        studentsResult.put(UserUtils.GENDER_MALE, men);
+        studentsResult.put(UserUtils.GENDER_FEMALE, women);
 
-        Map<String, List<User>> expectedResult2 = new HashMap<>();
-        List<User> men2 = new ArrayList<>();
-        List<User> women2 = new ArrayList<>();
-        women2.add(new User("Alexandra",42,UserUtils.GENDER_FEMALE,false));
-        expectedResult2.put(UserUtils.GENDER_FEMALE, women2);
+        Map<String, List<User>> notStudentsResult = new HashMap<>();
+        men = new ArrayList<>();
+        women = new ArrayList<>();
+        women.add(new User("Alexandra",42,UserUtils.GENDER_FEMALE,false));
+        notStudentsResult.put(UserUtils.GENDER_FEMALE, women);
 
         Map<Boolean, Map> expectedResult = new HashMap<>();
-        expectedResult.put(true,expectedResult1);
-        expectedResult.put(false,expectedResult2);
+        expectedResult.put(true,studentsResult);
+        expectedResult.put(false,notStudentsResult);
 
-        Map<Boolean, Map<String, List<User>>> actualResult = UserUtils.returnMapIsStudentContainingMapByGenders(userList);
+        Map<Boolean, Map<String, List<User>>> actualResult =
+                UserUtils.returnMapUsersGroupedByStudentContainingMapByGenders(userList);
         Assert.assertEquals(expectedResult,actualResult);
-
     }
-
-
 
 }
